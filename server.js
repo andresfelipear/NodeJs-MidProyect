@@ -8,7 +8,7 @@ const session = require('express-session')
 
 //routes imports
 const adminRoute = require('./routes/admin.route')
-// const authRoute = require('./routes/auth.route')
+const authRoute = require('./routes/auth.route')
 
 const app = express()
 
@@ -20,6 +20,7 @@ app.use(express.static(path.join(__dirname,'public')))
 
 //routes
 app.use(adminRoute)
+app.use(authRoute)
 
 // //page 404
 // app.use((req,res,next)=>{
