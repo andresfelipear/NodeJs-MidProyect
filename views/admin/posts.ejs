@@ -20,32 +20,44 @@
                                                         alt="<%= post.title%>" width="100px" />
                                                 </figure>
                                             </div>
-                                            <div class="card-content" >
+                                            <div class="card-content">
                                                 <div class="is-flex mb-1">
                                                     <div class="pr-2">
                                                         <form action="/admin/like-post" method="post">
-                                                            <input type="hidden"  name="postId" value="<%= post._id %>" />
-                                                            <button type="submit" class="buttons-like-commit button is-ghost p-0 "> <i class="far fa-thumbs-up p-8"></i></button>
+                                                            <input type="hidden" name="postId"
+                                                                value="<%= post._id %>" />
+                                                            <button type="submit"
+                                                                class="buttons-like-commit button is-ghost p-0 "> <i
+                                                                    class="far fa-thumbs-up p-8"></i></button>
                                                         </form>
-                                                        
+
                                                     </div>
-                                                    <div class="pl-2" >
-                                                        <input type="hidden"  name="postId" value="<%= post._id %>" />
+                                                    <div class="pl-2">
+                                                        <input type="hidden" name="postId" value="<%= post._id %>" />
                                                         <form action="/admin/like-post" method="post">
-                                                            <button type="submit" class="buttons-like-commit button is-ghost p-0" > <i class="far fa-comments p-8"></i></button>
+                                                            <button type="submit"
+                                                                class="buttons-like-commit button is-ghost p-0"> <i
+                                                                    class="far fa-comments p-8"></i></button>
                                                         </form>
-                                                        
+
                                                     </div>
-                                                    
+
                                                 </div>
-                                                <div class="has-text-weight-bold mb-3"> <%= post.likes %> likes</div>
+                                                <div class="has-text-weight-bold mb-3">
+                                                    <%if(post.likes==0){ %>
+                                                        Be the first to like this
+                                                    <%}else{%>
+                                                        <%= post.likes %> likes
+                                                    <%}%>
+                                                </div>
                                                 <div class="media">
                                                     <div class="media-left">
                                                         <div class="media-content">
                                                             <p class="title is-4 is-capitalized">
                                                                 <%= post.title%>
                                                             </p>
-                                                            <p class="subtitle is-6">@<%= post.username%></p>
+                                                            <p class="subtitle is-6">@<%= post.username%>
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -59,19 +71,25 @@
                                                 </div>
                                             </div>
                                             <footer class="card-footer">
-                                                <a class="card-footer-item"
-                                                    href="/posts/<%= post._id %>">Details</a>
+                                                <a class="card-footer-item color-secondary" href="/posts/<%= post._id %>">Details</a>
 
                                                 <% if(session.isLoggedIn){%>
-                                                <a class="card-footer-item"
-                                                    href="/admin/edit-post/<%= post._id %>?edit=true">Edit</a>
-                                                <form action="/admin/delete-post" method="POST">
-                                                    <input type="hidden"  name="postId" value="<%= post._id %>" />
-                                                    <a class="card-footer-item" href="#"
-                                                        onclick="this.closest('form').submit();return false;">Delete</a>
-                                                </form>
-                                                <%}%>
+                                                    <a class="card-footer-item color-secondary"
+                                                        href="/admin/edit-post/<%= post._id %>?edit=true">Edit</a>
+                                                    <form action="/admin/delete-post" method="POST">
+                                                        <input type="hidden" name="postId" value="<%= post._id %>" />
+                                                        <a class="card-footer-item color-secondary" href="#"
+                                                            onclick="this.closest('form').submit();return false;">Delete</a>
+                                                    </form>
+                                                    <%}%>
 
+                                            </footer>
+                                            <footer class="card-footer">
+                                                <form class=" card-footer-item p-0 " action="/add-comment-post" method="post">
+                                                    <input type="hidden" name="postId" value="<%= post._id %>" />
+                                                    <input class="input is-small is-static py-4 px-5" type="text" name="comment" placeholder="Add a comment...">
+                                                    <button type="submit" class="button is-ghost color-secondary">Post</button>
+                                                </form>
                                             </footer>
                                         </div>
                                     </div>
