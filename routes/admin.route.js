@@ -7,4 +7,6 @@ const adminController = require('../controllers/admin.controller')
 router.get('/', adminController.getAllPosts)
 
 router.get('/add-post', adminController.getAddEditPost)
+router.post('/add-post',adminController.postAddEditPost )
+
 module.exports = router

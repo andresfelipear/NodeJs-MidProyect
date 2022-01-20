@@ -2,7 +2,7 @@
 <body>
     <%- include('../includes/nav.ejs') %>
     <main class="container is-max-desktop">
-        <form class="mt-6" action="/admin/<% if(editing) { %>/edit-product<% }else{ %>/add-product<% } %>" method="post">
+        <form class="mt-6" action="/admin/<% if(editing) { %>/edit-product<% }else{ %>/add-post<% } %>" method="post">
             <div class="field">
                 <label class="label" for="title">Title</label>
                 <div class="control">

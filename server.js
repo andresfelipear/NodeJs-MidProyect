@@ -26,13 +26,7 @@ app.use(session({
 //middleware
 app.use('/admin/', (req, res, next) => {
     if (!req.session.user) {
-        console.log('hola');
         res.redirect('/')
-        // res.render("admin/posts", {
-        //     titlePage: 'Home',
-        //     session: req.session.hasOwnProperty('user') ? req.session : false,
-        //     errMsg: 'You have to sign in for access to that page',
-        // })
     }
     else {
         next();
