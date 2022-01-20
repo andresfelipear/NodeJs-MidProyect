@@ -1,6 +1,13 @@
 const Posts = require('../models/posts.model')
 
 
+const getById = (postId) => {
+    return Posts.findById(postId, (err, post) => {
+        if(err) console.log(err)
+        return post
+    }).clone()
+}
+
 exports.getAllPosts = (req, res, next) => {
     Posts.find((err, posts) => {
         if (err) console.log(err);
@@ -47,24 +54,20 @@ exports.getEditPost = async (req, res, next) => {
     if (!edit) res.redirect('/')
 
     const { postId } = req.params
-    const post = await Posts.findById(postId, (err, post) => {
-        if (err) console.log(err);
-        res.render('admin/add-edit-post', {
-            titlePage: 'Add Post',
-            session: req.session.hasOwnProperty('user') ? req.session : false,
-            editing: edit,
-            post: post
-        })
-    }).clone()
+    const post = await getById(postId)
+    res.render('admin/add-edit-post', {
+        titlePage: 'Add Post',
+        session: req.session.hasOwnProperty('user') ? req.session : false,
+        editing: edit,
+        post: post
+    })
+
 }
 
 //Edit Post (post)
 exports.postEditPost = async (req, res, next) => {
     const { title, imageUrl, description, postId } = req.body
-    const post = await Posts.findById(postId, (err, post) => {
-        if (err) console.log(err);
-        return post
-    }).clone()
+    const post = await getById(postId)
 
     post.title = title
     post.imageUrl = imageUrl
@@ -85,14 +88,24 @@ exports.postDeletePost = async (req, res, next) => {
 //Like Post
 exports.postLikePost = async(req, res, next)=>{
     const { postId} = req.body
-    const post = await Posts.findById(postId,(err,post)=>{
-        if(err) console.log(err);
-        return post
-    }).clone()
+    const post = await getById(postId)
 
     post.likes = post.likes+1
     await post.save()
 
     res.redirect('/')
 
+}
+
+//Add comment Post
+exports.postAddComentPost = async(req, res, next)=>{
+    const {postId, comment} = req.body
+    const post = await getById(postId)
+    console.log(post.comments);
+    post.comments.push({
+        comment:comment,
+        date: new Date()
+    })
+    await post.save()
+    res.redirect('/')
 }

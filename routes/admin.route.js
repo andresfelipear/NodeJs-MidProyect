@@ -18,5 +18,8 @@ router.post('/delete-post', adminController.postDeletePost)
 //like post
 router.post('/like-post', adminController.postLikePost)
 
+//add comment post
+router.post('/add-comment-post', adminController.postAddComentPost)
+
 module.exports = router
 

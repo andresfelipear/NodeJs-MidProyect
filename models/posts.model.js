@@ -16,12 +16,22 @@ const productSchema = new Schema({
     },
     likes:{
         type: Number,
-        required:false
+        required:true
     },
     date:{
         type: Date,
         required:true
     },
+    comments:[{
+        comment:{
+            type:String,
+            required:false
+        },
+        date:{
+            type:Date,
+            required:false
+        }
+    }],
     userId: {
         type: Schema.Types.ObjectId,
         ref: 'User',
