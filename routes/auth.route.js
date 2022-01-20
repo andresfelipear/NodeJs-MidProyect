@@ -14,7 +14,7 @@ router.post('/logout', authController.postLogout)
 
 router.get('/', authController.getUserPosts)
 
-//post details, edit, delete
+//post details
 router.get('/posts/:postId', authController.getPostById)
 
 module.exports = router

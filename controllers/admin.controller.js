@@ -40,3 +40,36 @@ exports.postAddEditPost = async(req,res, next)=>{
     res.redirect("/admin/")
 }
 
+//Edit Post (get)
+exports.getEditPost =  async(req, res, next)=>{
+    const edit= req.query.edit
+    if (!edit) res.redirect('/')
+
+    const { postId} = req.params
+    const post = await Posts.findById(postId, (err, post)=>{
+        if(err) console.log(err);
+        res.render('admin/add-edit-post',{
+            titlePage: 'Add Post',
+            session:req.session.hasOwnProperty('user')?req.session:false,
+            editing:edit,
+            post:post
+        })
+    }).clone()
+}
+
+//Edit Post (post)
+exports.postEditPost = async(req,res,next)=>{
+    const {title, imageUrl, description, postId} = req.body
+    const post = await Posts.findById(postId, (err,post)=>{
+        if(err)console.log(err);
+        return post
+    }).clone()
+
+    post.title = title
+    post.imageUrl = imageUrl
+    post.description = description
+    post.date = new Date()
+
+    await post.save()
+    res.redirect('/')
+}
