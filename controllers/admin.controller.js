@@ -101,7 +101,6 @@ exports.postLikePost = async(req, res, next)=>{
 exports.postAddComentPost = async(req, res, next)=>{
     const {postId, comment} = req.body
     const post = await getById(postId)
-    console.log(post.comments);
     post.comments.push({
         comment:comment,
         date: new Date()
