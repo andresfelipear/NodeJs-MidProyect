@@ -32,8 +32,11 @@ exports.postAddEditPost = async(req,res, next)=>{
         title:title,
         imageUrl:imageUrl, 
         description:description,
-        userId:req.session.user._id
+        date: new Date(),
+        userId:req.session.user._id,
+        username:req.session.user.username
     })
     await post.save()
     res.redirect("/admin/")
 }
+

@@ -14,9 +14,17 @@ const productSchema = new Schema({
         type: String,
         required: true
     },
+    date:{
+        type: Date,
+        required:true
+    },
     userId: {
         type: Schema.Types.ObjectId,
         ref: 'User',
+        required: true
+    },
+    username: {
+        type: String,
         required: true
     }
 })

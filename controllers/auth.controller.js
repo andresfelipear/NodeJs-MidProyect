@@ -1,12 +1,17 @@
 const User = require('../models/user.model')
+const Posts = require('../models/posts.model')
 const bcrypt = require('bcrypt')
 
 //User posts
 exports.getUserPosts = (req, res,next)=>{
-    res.render('auth/posts',{
-        titlePage: 'Posts',
-        session:req.session.hasOwnProperty('user')?req.session:false,
-        errMsg:''
+    Posts.find((err,posts)=>{
+        if(err)console.log(err);
+        res.render('admin/posts', {
+            titlePage: `Posts`,
+            session:req.session.hasOwnProperty('user')?req.session:false,
+            errMsg:'',
+            posts:posts
+        })
     })
 }
 
@@ -73,14 +78,16 @@ exports.postSignUp = async (req, res, next) => {
         if (User.exists({ username: username })) {
             res.render('auth/signup', {
                 titlePage: 'User Sign Up',
-                errMsg: 'The username exists, Try login or use another username'
+                errMsg: 'The username exists, Try login or use another username',
+                session:req.session.hasOwnProperty('user')?req.session:false
             })
         }
         else {
             if (User.exists({ email: email })) {
                 res.render('auth/signup', {
                     titlePage: 'User Sign Up',
-                    errMsg: 'The email exists, Try login or use another email'
+                    errMsg: 'The email exists, Try login or use another email',
+                    session:req.session.hasOwnProperty('user')?req.session:false
                 })
             }
             else {
@@ -108,7 +115,8 @@ exports.postSignUp = async (req, res, next) => {
     else {
         res.render('auth/signup', {
             titlePage: 'User Sign Up',
-            errMsg: 'The confirm password does not match.. try again!!'
+            errMsg: 'The confirm password does not match.. try again!!',
+            session:req.session.hasOwnProperty('user')?req.session:false
         })
     }
 
@@ -121,3 +129,21 @@ exports.postLogout = (req,res,next) => {
     })
 }
 
+//Posts (details)
+exports.getPostById = async(req,res,next)=>{
+    const {
+        params: { postId },
+      } = req
+
+      const post = await Posts.findById(postId)
+      res.render('auth/post-details', {
+        titlePage: post.title,
+        errMsg: '',
+        session:req.session.hasOwnProperty('user')?req.session:false,
+        post:post
+    })
+
+    
+
+    
+}
