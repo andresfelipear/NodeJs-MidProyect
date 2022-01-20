@@ -4,6 +4,11 @@
     <%- include('../includes/nav.ejs')%>
     <main class="container mt-6">
 
+        <% if(errMsg){%>
+            <div class="notification is-warning is-light p-2">
+                <%=errMsg%>
+              </div>
+        <%}%>
         <form action="/login" method="post">
 
             <div class="field">

@@ -15,21 +15,28 @@ const app = express()
 
 
 app.set('view engine', 'ejs')
-app.use(bodyParser.urlencoded({extended:false}))
-app.use(express.static(path.join(__dirname,'public')))
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.static(path.join(__dirname, 'public')))
+
+//session
+app.use(session({
+    secret: 'thisIsaSuperSecretString',
+    resave: false,
+    saveUninitialized: false,
+}))
 
 //routes
 app.use(adminRoute)
 app.use(authRoute)
 
-// //page 404
-// app.use((req,res,next)=>{
-//     res.status(404).render('404', {titlePage:'Page Not Found'})
-// })
+//page 404
+app.use((req, res, next) => {
+    res.status(404).render('404', { titlePage: 'Page Not Found',session:req.session.hasOwnProperty('user')?req.session:false })
+})
 
 const PORT = process.env.PORT || 8000
 
-mongoose.connect(process.env.MONGODB_URL, ()=>{
+mongoose.connect(process.env.MONGODB_URL, () => {
     app.listen(PORT)
     console.log(`listen PORT ${PORT}`);
 })
