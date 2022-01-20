@@ -73,3 +73,10 @@ exports.postEditPost = async(req,res,next)=>{
     await post.save()
     res.redirect('/')
 }
+
+//Delete Post (post)
+exports.postDeletePost = async(req, res, next)=>{
+    const {postId} = req.body
+    await Posts.findByIdAndDelete(postId)
+    res.redirect('/')
+}

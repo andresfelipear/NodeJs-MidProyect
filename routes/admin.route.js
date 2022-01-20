@@ -13,5 +13,7 @@ router.post('/add-post',adminController.postAddEditPost )
 router.get('/edit-post/:postId', adminController.getEditPost)
 router.post('/edit-post', adminController.postEditPost)
 
+router.post('/delete-post', adminController.postDeletePost)
+
 module.exports = router
 
