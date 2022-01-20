@@ -2,12 +2,17 @@ const Posts = require('../models/posts.model')
 
 
 exports.getAllPosts = (req, res, next) => {
-
-    res.render('admin/posts', {
-        titlePage: `Posts - (${req.session.user.username})`,
-        session:req.session.hasOwnProperty('user')?req.session:false,
-        errMsg:''
+    Posts.find((err,posts)=>{
+        if(err)console.log(err);
+        res.render('admin/posts', {
+            titlePage: `Posts - (${req.session.user.username})`,
+            session:req.session.hasOwnProperty('user')?req.session:false,
+            errMsg:'',
+            posts:posts
+        })
     })
+
+    
 }
 
 //AddEdit Post (get)

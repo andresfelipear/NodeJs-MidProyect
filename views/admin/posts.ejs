@@ -1,14 +1,64 @@
 <%- include('../includes/head.ejs')%>
-<body>
-    <%- include('../includes/nav.ejs')%>
-    <main>
-        <% if(errMsg){%>
-            <div class="notification is-warning is-light p-2">
-                <%=errMsg%>
-              </div>
-        <%}%>
-        
-        <h1>No posts</h1>
-    </main>
 
-<%- include('../includes/end.ejs')%>
+    <body>
+        <%- include('../includes/nav.ejs')%>
+            <main>
+                <% if(errMsg){%>
+                    <div class="notification is-warning is-light p-2">
+                        <%=errMsg%>
+                    </div>
+                    <%}%>
+
+                        <% if(posts.length>0){%>
+                            <div class="columns is-4 m-4">
+                                <% for(let post of posts) { %>
+                                    <div class="column is-one-quarter">
+                                        <div class="card">
+                                            <div class="card-image">
+                                                <figure class="image is-4by3">
+                                                    <img src="http://localhost:8000/<%= post.imageUrl %>"
+                                                        alt="<%= post.title%>" width="100px" />
+                                                </figure>
+                                            </div>
+                                            <div class="card-content">
+                                                <div class="media">
+                                                    <div class="media-left">
+                                                        <div class="media-content">
+                                                            <p class="title is-4">
+                                                                <%= post.title%>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="content">
+                                                    <% if(post.description.length>= 25) { %>
+                                                        <%= post.description.slice(0, 25).concat('...') %>
+                                                            <% }else{ %>
+                                                                <%= post.description %>
+                                                                    <% } %>
+                                                </div>
+                                            </div>
+                                            <footer class="card-footer">
+                                                <a class="card-footer-item"
+                                                    href="/products/<%= post._id %>">Details</a>
+
+                                                <a class="card-footer-item"
+                                                    href="/admin/edit-product/<%= post._id %>?edit=true">Edit</a>
+                                                <form action="/admin/delete-product" method="POST">
+                                                    <input type="hidden"  name="postId" value="<%= post._id %>" />
+                                                    <a class="card-footer-item" href="#"
+                                                        onclick="this.closest('form').submit();return false;">Delete</a>
+                                                </form>
+
+                                            </footer>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                            </div>
+                            <% } else { %>
+                                <h1 class="title">No Posts Found!</h1>
+                                <% } %>
+            </main>
+
+            <%- include('../includes/end.ejs')%>

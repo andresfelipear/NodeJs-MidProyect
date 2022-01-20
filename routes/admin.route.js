@@ -10,3 +10,4 @@ router.get('/add-post', adminController.getAddEditPost)
 router.post('/add-post',adminController.postAddEditPost )
 
 module.exports = router
+
