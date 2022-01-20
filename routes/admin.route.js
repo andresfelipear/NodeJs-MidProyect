@@ -15,5 +15,8 @@ router.post('/edit-post', adminController.postEditPost)
 
 router.post('/delete-post', adminController.postDeletePost)
 
+//like post
+router.post('/like-post', adminController.postLikePost)
+
 module.exports = router
 

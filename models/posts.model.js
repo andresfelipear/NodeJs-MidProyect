@@ -14,6 +14,10 @@ const productSchema = new Schema({
         type: String,
         required: true
     },
+    likes:{
+        type: Number,
+        required:false
+    },
     date:{
         type: Date,
         required:true

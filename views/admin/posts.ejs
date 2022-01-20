@@ -10,7 +10,7 @@
                     <%}%>
 
                         <% if(posts.length>0){%>
-                            <div class="columns is-4 m-4">
+                            <div class="columns is-multiline is-4 m-4">
                                 <% for(let post of posts) { %>
                                     <div class="column is-one-quarter">
                                         <div class="card">
@@ -21,15 +21,24 @@
                                                 </figure>
                                             </div>
                                             <div class="card-content" >
-                                                <div class="is-flex mb-4" style="font-size: 24px">
+                                                <div class="is-flex mb-1">
                                                     <div class="pr-2">
-                                                        <i class="far fa-thumbs-up p-8"></i>
+                                                        <form action="/admin/like-post" method="post">
+                                                            <input type="hidden"  name="postId" value="<%= post._id %>" />
+                                                            <button type="submit" class="buttons-like-commit button is-ghost p-0 "> <i class="far fa-thumbs-up p-8"></i></button>
+                                                        </form>
+                                                        
                                                     </div>
                                                     <div class="pl-2" >
-                                                        <i class="far fa-comments p-8"></i>
+                                                        <input type="hidden"  name="postId" value="<%= post._id %>" />
+                                                        <form action="/admin/like-post" method="post">
+                                                            <button type="submit" class="buttons-like-commit button is-ghost p-0" > <i class="far fa-comments p-8"></i></button>
+                                                        </form>
+                                                        
                                                     </div>
                                                     
                                                 </div>
+                                                <div class="has-text-weight-bold mb-3"> <%= post.likes %> likes</div>
                                                 <div class="media">
                                                     <div class="media-left">
                                                         <div class="media-content">
