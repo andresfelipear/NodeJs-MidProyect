@@ -23,7 +23,7 @@
                                             <div class="card-content">
                                                 <div class="is-flex mb-1">
                                                     <div class="pr-2">
-                                                        <form action="/admin/like-post" method="post">
+                                                        <form action="/like-post" method="post">
                                                             <input type="hidden" name="postId"
                                                                 value="<%= post._id %>" />
                                                             <button type="submit"
@@ -34,7 +34,7 @@
                                                     </div>
                                                     <div class="pl-2">
                                                         <input type="hidden" name="postId" value="<%= post._id %>" />
-                                                        <form action="/admin/like-post" method="post">
+                                                        <form action="/view-comments" method="post">
                                                             <button type="submit"
                                                                 class="buttons-like-commit button is-ghost p-0"> <i
                                                                     class="far fa-comments p-8"></i></button>
@@ -85,7 +85,7 @@
 
                                             </footer>
                                             <footer class="card-footer">
-                                                <form class=" card-footer-item p-0 " action="/admin/add-comment-post" method="post">
+                                                <form class=" card-footer-item p-0 " action="/add-comment-post" method="post">
                                                     <input type="hidden" name="postId" value="<%= post._id %>" />
                                                     <input class="input is-small is-static py-4 px-5" type="text" name="comment" placeholder="Add a comment...">
                                                     <button type="submit" class="button is-ghost color-secondary">Post</button>

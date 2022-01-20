@@ -17,4 +17,10 @@ router.get('/', authController.getUserPosts)
 //post details
 router.get('/posts/:postId', authController.getPostById)
 
+
+//like post
+router.post('/like-post', authController.postLikePost)
+
+//add comment post
+router.post('/add-comment-post', authController.postAddComentPost)
 module.exports = router

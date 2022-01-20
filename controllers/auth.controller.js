@@ -2,6 +2,13 @@ const User = require('../models/user.model')
 const Posts = require('../models/posts.model')
 const bcrypt = require('bcrypt')
 
+const getById = (postId) => {
+    return Posts.findById(postId, (err, post) => {
+        if(err) console.log(err)
+        return post
+    }).clone()
+}
+
 //User posts
 exports.getUserPosts = (req, res,next)=>{
     Posts.find((err,posts)=>{
@@ -143,7 +150,28 @@ exports.getPostById = async(req,res,next)=>{
         post:post
     })
 
-    
+}
 
-    
+//Add comment Post
+exports.postAddComentPost = async(req, res, next)=>{
+    const {postId, comment} = req.body
+    const post = await getById(postId)
+    post.comments.push({
+        comment:comment,
+        date: new Date()
+    })
+    await post.save()
+    res.redirect('/')
+}
+
+//Like Post
+exports.postLikePost = async(req, res, next)=>{
+    const { postId} = req.body
+    const post = await getById(postId)
+
+    post.likes = post.likes+1
+    await post.save()
+
+    res.redirect('/')
+
 }

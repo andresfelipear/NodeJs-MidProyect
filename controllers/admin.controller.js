@@ -85,26 +85,26 @@ exports.postDeletePost = async (req, res, next) => {
     res.redirect('/')
 }
 
-//Like Post
-exports.postLikePost = async(req, res, next)=>{
-    const { postId} = req.body
-    const post = await getById(postId)
+// //Like Post
+// exports.postLikePost = async(req, res, next)=>{
+//     const { postId} = req.body
+//     const post = await getById(postId)
 
-    post.likes = post.likes+1
-    await post.save()
+//     post.likes = post.likes+1
+//     await post.save()
 
-    res.redirect('/')
+//     res.redirect('/')
 
-}
+// }
 
-//Add comment Post
-exports.postAddComentPost = async(req, res, next)=>{
-    const {postId, comment} = req.body
-    const post = await getById(postId)
-    post.comments.push({
-        comment:comment,
-        date: new Date()
-    })
-    await post.save()
-    res.redirect('/')
-}
+// //Add comment Post
+// exports.postAddComentPost = async(req, res, next)=>{
+//     const {postId, comment} = req.body
+//     const post = await getById(postId)
+//     post.comments.push({
+//         comment:comment,
+//         date: new Date()
+//     })
+//     await post.save()
+//     res.redirect('/')
+// }
