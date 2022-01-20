@@ -75,7 +75,7 @@ exports.getSignUp = (req, res, next) => {
 exports.postSignUp = async (req, res, next) => {
     const { username, email, password, confirmPassword } = req.body
     if (password === confirmPassword) {
-        if (User.exists({ username: username })) {
+        if (await User.exists({ username: username })) {
             res.render('auth/signup', {
                 titlePage: 'User Sign Up',
                 errMsg: 'The username exists, Try login or use another username',
@@ -83,7 +83,7 @@ exports.postSignUp = async (req, res, next) => {
             })
         }
         else {
-            if (User.exists({ email: email })) {
+            if (await User.exists({ email: email })) {
                 res.render('auth/signup', {
                     titlePage: 'User Sign Up',
                     errMsg: 'The email exists, Try login or use another email',
