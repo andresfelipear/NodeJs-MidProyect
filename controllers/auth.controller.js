@@ -1,13 +1,23 @@
 const User = require('../models/user.model')
 const bcrypt = require('bcrypt')
 
+//User posts
+exports.getUserPosts = (req, res,next)=>{
+    res.render('auth/posts',{
+        titlePage: 'Posts',
+        session:req.session.hasOwnProperty('user')?req.session:false,
+        errMsg:''
+    })
+}
+
+
 //Login (get, post)
 
 exports.getLogin = (req, res, next) => {
     res.render('auth/login', {
         titlePage: 'User Login',
         errMsg:'',
-        session:false
+        session:req.session.hasOwnProperty('user')?req.session:false,
     })
 }
 
@@ -20,7 +30,8 @@ exports.postLogin = (req, res, next) => {
         if(!user){
             res.render('auth/login',{
                 titlePage:'User Login',
-                errMsg:'The username or password that you entered is incorrect. Use a valid credential and try again'
+                errMsg:'The username or password that you entered is incorrect. Use a valid credential and try again',
+                session:req.session.hasOwnProperty('user')?req.session:false,
             })
         }
 
@@ -30,12 +41,13 @@ exports.postLogin = (req, res, next) => {
                 req.session.isLoggedIn = true
                 return req.session.save(err=>{
                     if(err) console.log(err);
-                    res.redirect('/')
+                    res.redirect('/admin')
                 })
             }
             res.render('auth/login',{
                 titlePage:'User Login',
-                errMsg:'The username or password that you entered is incorrect. Use a valid credential and try again'
+                errMsg:'The username or password that you entered is incorrect. Use a valid credential and try again',
+                session:req.session.hasOwnProperty('user')?req.session:false,
             })
         }).catch(err=>{
             console.log(err);
@@ -51,7 +63,7 @@ exports.getSignUp = (req, res, next) => {
     res.render('auth/signup', {
         titlePage: 'User Sign Up',
         errMsg:'',
-        isLoggedIn:false
+        session:req.session.hasOwnProperty('user')?req.session:false
     })
 }
 

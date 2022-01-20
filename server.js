@@ -12,8 +12,6 @@ const authRoute = require('./routes/auth.route')
 
 const app = express()
 
-
-
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
@@ -25,13 +23,34 @@ app.use(session({
     saveUninitialized: false,
 }))
 
+//middleware
+app.use('/admin/', (req, res, next) => {
+    if (!req.session.user) {
+        console.log('hola');
+        res.redirect('/')
+        // res.render("admin/posts", {
+        //     titlePage: 'Home',
+        //     session: req.session.hasOwnProperty('user') ? req.session : false,
+        //     errMsg: 'You have to sign in for access to that page',
+        // })
+    }
+    else {
+        next();
+    }
+})
+
 //routes
-app.use(adminRoute)
+app.use((req, res, next) => {
+    res.locals.isAuth = req.session.isLoggedIn
+    next()
+})
+app.use('/admin', adminRoute)
 app.use(authRoute)
+
 
 //page 404
 app.use((req, res, next) => {
-    res.status(404).render('404', { titlePage: 'Page Not Found',session:req.session.hasOwnProperty('user')?req.session:false })
+    res.status(404).render('404', { titlePage: 'Page Not Found', session: req.session.hasOwnProperty('user') ? req.session : false })
 })
 
 const PORT = process.env.PORT || 8000
