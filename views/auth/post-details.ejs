@@ -30,7 +30,11 @@
                         </div>
                     </div>
                     <% if(post.comments.length >0){ %>
-                    <div class="panel">
+                        <% if(autofocus){ %>
+                            <div class="panel" tabindex="0" autofocus>
+                        <% }else{%>
+                            <div class="panel" tabindex="0"></div>
+                        <% }%>
                         <p class="panel-heading">
                             Comments
                         </p>

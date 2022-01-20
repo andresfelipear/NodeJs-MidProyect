@@ -32,14 +32,10 @@
                                                         </form>
 
                                                     </div>
-                                                    <div class="pl-2">
-                                                        <input type="hidden" name="postId" value="<%= post._id %>" />
-                                                        <form action="/view-comments" method="post">
-                                                            <button type="submit"
-                                                                class="buttons-like-commit button is-ghost p-0"> <i
-                                                                    class="far fa-comments p-8"></i></button>
-                                                        </form>
-
+                                                    <div class="pl-2" >
+                                                        <span class="p-8  ">
+                                                            <a class="buttons-like-commit" href="/posts/<%= post._id %>?autofocus=true"> <i class="far fa-comments"></i></a>
+                                                        </span>
                                                     </div>
 
                                                 </div>

@@ -4,20 +4,20 @@ const bcrypt = require('bcrypt')
 
 const getById = (postId) => {
     return Posts.findById(postId, (err, post) => {
-        if(err) console.log(err)
+        if (err) console.log(err)
         return post
     }).clone()
 }
 
 //User posts
-exports.getUserPosts = (req, res,next)=>{
-    Posts.find((err,posts)=>{
-        if(err)console.log(err);
+exports.getUserPosts = (req, res, next) => {
+    Posts.find((err, posts) => {
+        if (err) console.log(err);
         res.render('admin/posts', {
             titlePage: `Posts`,
-            session:req.session.hasOwnProperty('user')?req.session:false,
-            errMsg:'',
-            posts:posts
+            session: req.session.hasOwnProperty('user') ? req.session : false,
+            errMsg: '',
+            posts: posts
         })
     })
 }
@@ -28,40 +28,40 @@ exports.getUserPosts = (req, res,next)=>{
 exports.getLogin = (req, res, next) => {
     res.render('auth/login', {
         titlePage: 'User Login',
-        errMsg:'',
-        session:req.session.hasOwnProperty('user')?req.session:false,
+        errMsg: '',
+        session: req.session.hasOwnProperty('user') ? req.session : false,
     })
 }
 
 exports.postLogin = (req, res, next) => {
-    const {username, password} = req.body
+    const { username, password } = req.body
 
-    User.findOne({username:username}, (err, user)=>{
-        if(err) console.log(err)
+    User.findOne({ username: username }, (err, user) => {
+        if (err) console.log(err)
 
-        if(!user){
-            res.render('auth/login',{
-                titlePage:'User Login',
-                errMsg:'The username or password that you entered is incorrect. Use a valid credential and try again',
-                session:req.session.hasOwnProperty('user')?req.session:false,
+        if (!user) {
+            res.render('auth/login', {
+                titlePage: 'User Login',
+                errMsg: 'The username or password that you entered is incorrect. Use a valid credential and try again',
+                session: req.session.hasOwnProperty('user') ? req.session : false,
             })
         }
 
-        bcrypt.compare(password, user.password).then((isMatching)=>{
-            if(isMatching){
+        bcrypt.compare(password, user.password).then((isMatching) => {
+            if (isMatching) {
                 req.session.user = user
                 req.session.isLoggedIn = true
-                return req.session.save(err=>{
-                    if(err) console.log(err);
+                return req.session.save(err => {
+                    if (err) console.log(err);
                     res.redirect('/admin')
                 })
             }
-            res.render('auth/login',{
-                titlePage:'User Login',
-                errMsg:'The username or password that you entered is incorrect. Use a valid credential and try again',
-                session:req.session.hasOwnProperty('user')?req.session:false,
+            res.render('auth/login', {
+                titlePage: 'User Login',
+                errMsg: 'The username or password that you entered is incorrect. Use a valid credential and try again',
+                session: req.session.hasOwnProperty('user') ? req.session : false,
             })
-        }).catch(err=>{
+        }).catch(err => {
             console.log(err);
         })
     })
@@ -74,8 +74,8 @@ exports.postLogin = (req, res, next) => {
 exports.getSignUp = (req, res, next) => {
     res.render('auth/signup', {
         titlePage: 'User Sign Up',
-        errMsg:'',
-        session:req.session.hasOwnProperty('user')?req.session:false
+        errMsg: '',
+        session: req.session.hasOwnProperty('user') ? req.session : false
     })
 }
 
@@ -86,7 +86,7 @@ exports.postSignUp = async (req, res, next) => {
             res.render('auth/signup', {
                 titlePage: 'User Sign Up',
                 errMsg: 'The username exists, Try login or use another username',
-                session:req.session.hasOwnProperty('user')?req.session:false
+                session: req.session.hasOwnProperty('user') ? req.session : false
             })
         }
         else {
@@ -94,7 +94,7 @@ exports.postSignUp = async (req, res, next) => {
                 res.render('auth/signup', {
                     titlePage: 'User Sign Up',
                     errMsg: 'The email exists, Try login or use another email',
-                    session:req.session.hasOwnProperty('user')?req.session:false
+                    session: req.session.hasOwnProperty('user') ? req.session : false
                 })
             }
             else {
@@ -123,41 +123,43 @@ exports.postSignUp = async (req, res, next) => {
         res.render('auth/signup', {
             titlePage: 'User Sign Up',
             errMsg: 'The confirm password does not match.. try again!!',
-            session:req.session.hasOwnProperty('user')?req.session:false
+            session: req.session.hasOwnProperty('user') ? req.session : false
         })
     }
 
 }
 
-exports.postLogout = (req,res,next) => {
+exports.postLogout = (req, res, next) => {
     req.session.destroy(err => {
-        if(err) console.log(err)
+        if (err) console.log(err)
         res.redirect('/')
     })
 }
 
 //Posts (details)
-exports.getPostById = async(req,res,next)=>{
+exports.getPostById = async (req, res, next) => {
+    const autofocus = req.query.autofocus ? req.query.autofocus : false
     const {
         params: { postId },
-      } = req
+    } = req
 
-      const post = await Posts.findById(postId)
-      res.render('auth/post-details', {
+    const post = await Posts.findById(postId)
+    res.render('auth/post-details', {
         titlePage: post.title,
         errMsg: '',
-        session:req.session.hasOwnProperty('user')?req.session:false,
-        post:post
+        session: req.session.hasOwnProperty('user') ? req.session : false,
+        post: post,
+        autofocus: autofocus
     })
 
 }
 
 //Add comment Post
-exports.postAddComentPost = async(req, res, next)=>{
-    const {postId, comment} = req.body
+exports.postAddComentPost = async (req, res, next) => {
+    const { postId, comment } = req.body
     const post = await getById(postId)
     post.comments.push({
-        comment:comment,
+        comment: comment,
         date: new Date()
     })
     await post.save()
@@ -165,11 +167,11 @@ exports.postAddComentPost = async(req, res, next)=>{
 }
 
 //Like Post
-exports.postLikePost = async(req, res, next)=>{
-    const { postId} = req.body
+exports.postLikePost = async (req, res, next) => {
+    const { postId } = req.body
     const post = await getById(postId)
 
-    post.likes = post.likes+1
+    post.likes = post.likes + 1
     await post.save()
 
     res.redirect('/')
