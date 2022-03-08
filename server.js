@@ -47,7 +47,7 @@ app.use((req, res, next) => {
     res.status(404).render('404', { titlePage: 'Page Not Found', session: req.session.hasOwnProperty('user') ? req.session : false })
 })
 
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 8500
 
 mongoose.connect(process.env.MONGODB_URL, () => {
     app.listen(PORT)
